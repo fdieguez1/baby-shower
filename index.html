@@ -381,13 +381,16 @@ body::before {
       Tu presencia es el mejor regalo."
     </p>
 
-    <!-- <a href="javascript:void(0)" class="btn-primary" onclick="showPage('gifts')">
+    <!-- Botón desactivado: acceso a regalos solo desde la pestaña superior derecha -->
+    <!--
+    <a href="javascript:void(0)" class="btn-primary" onclick="showPage('gifts')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/>
         <path d="M12 7V3M12 3l-3 3M12 3l3 3"/>
       </svg>
-      Ver lista de regalos sugeridos
-    </a> -->
+      Ver lista de regalos
+    </a>
+    -->
   </div>
 </main>
 
@@ -540,7 +543,7 @@ function showPage(page) {
   }
 }
 
-if (urlCode) showPage("gifts");
+// El código del URL se guarda en urlCode pero siempre arrancamos en la invitación.
 
 // ── Transparencia (acordeón) ─────────────────────────────────
 function toggleTransparency() {
