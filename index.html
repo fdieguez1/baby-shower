@@ -363,7 +363,7 @@ body::before {
     <div class="invite-info">
       <div class="info-block">
         <div class="info-label">Cuándo</div>
-        <div class="info-value">Sábado 02 de mayo<br>15:30 hs a 19:30hs, merienda 🌸</div>
+        <div class="info-value">Sábado 02 de mayo<br>15:30 hs a  19:30</div>
       </div>
       <div class="info-block">
         <div class="info-label">Dónde</div>
@@ -382,7 +382,7 @@ body::before {
         <path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/>
         <path d="M12 7V3M12 3l-3 3M12 3l3 3"/>
       </svg>
-      Ver lista de regalos
+      Ver lista de regalos sugeridos
     </a>
   </div>
 </main>
@@ -391,14 +391,14 @@ body::before {
 <section id="page-gifts" class="page">
   <div class="gifts-header">
     <p class="gifts-eyebrow">Lista de</p>
-    <h2 class="gifts-title">Regalos <em>sugeridos</em></h2>
+    <h2 class="gifts-title">Regalos <em>sugeridos</em> y opcionales</h2>
   </div>
 
   <!-- Panel: cómo funciona -->
   <div class="transparency-panel">
     <div class="transparency-header" id="t-header" onclick="toggleTransparency()">
       <span style="font-size:16px">🔍</span>
-      <span class="transparency-title">¿Cómo funciona? — Sin trampa ni cartón</span>
+      <span class="transparency-title">¿Cómo funciona?</span>
       <span class="t-arrow" id="t-arrow">▼</span>
     </div>
     <div class="transparency-body" id="t-body">
@@ -590,14 +590,10 @@ async function submitCode() {
 
 async function checkCode(code) {
   try {
-    const res = await fetch(`${WORKER_URL}/api/reservar`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ codigo: code, regalo_id: "_check_" }),
-    }).then(r => r.json());
-
-    if (res?.error === "Faltan campos: codigo, regalo_id") return "valid";
-    if (res?.error === "Este código ya fue utilizado")     return "used";
+    const res = await fetch(`${WORKER_URL}/api/validar?codigo=${encodeURIComponent(code)}`)
+      .then(r => r.json());
+    if (res?.estado === "valido") return "valid";
+    if (res?.estado === "usado")  return "used";
     return "invalid";
   } catch { return "invalid"; }
 }
