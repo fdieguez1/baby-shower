@@ -60,6 +60,12 @@ body::before {
   pointer-events: none;
   z-index: 0;
 }
+.gift-desc a {
+  color: var(--mauve);
+  text-decoration: underline;
+  font-size: inherit;
+}
+.gift-desc a:hover { color: var(--rose); }
 
 .page { position: relative; z-index: 1; min-height: 100vh; }
 
@@ -133,7 +139,7 @@ body::before {
   
   display: inline-flex; align-items: center; gap: 10px;
   background: var(--mauve); color: #fff; border: none; border-radius: 100px;
-  padding: 10px 24px; font-family: var(--f-body); font-size: 13px; font-weight: 400;
+  padding: 1px 8px; font-family: var(--f-body); font-size: 13px; font-weight: 400;
   letter-spacing: .12em; text-transform: uppercase; cursor: pointer; text-decoration: none;
   transition: background .2s, transform .15s, box-shadow .2s;
   box-shadow: 0 4px 24px rgba(155,107,120,.25);
