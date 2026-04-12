@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baby Shower — Martina & Lucía</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+/* ── Variables ────────────────────────────────────────── */
+:root {
+  --cream:   #fdf8f2;
+  --blush:   #f2d4c8;
+  --rose:    #c9847a;
+  --mauve:   #9b6b78;
+  --sage:    #8a9e8c;
+  --ink:     #2d2320;
+  --muted:   #8a7a76;
+  --card:    #fffcf9;
+  --border:  #ede0d8;
+  --shadow:  rgba(45,35,32,.07);
+
+  --f-display: 'Cormorant Garamond', Georgia, serif;
+  --f-body:    'Jost', sans-serif;
+
+  --worker: "https://baby-shower-api.babyshowerdieguez.workers.dev";
+}
+
+/* ── Reset ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ── Fondo decorativo ─────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 10%, rgba(242,212,200,.35) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 90% 90%, rgba(138,158,140,.18) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Páginas ──────────────────────────────────────────── */
+.page { position: relative; z-index: 1; min-height: 100vh; }
+
+/* ── INVITACIÓN ───────────────────────────────────────── */
+#page-invite {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px 80px;
+  text-align: center;
+}
+
+.invite-frame {
+  max-width: 560px;
+  width: 100%;
+}
+
+.invite-eyebrow {
+  font-family: var(--f-body);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--rose);
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp .8s .1s forwards;
+}
+
+.invite-title {
+  font-family: var(--f-display);
+  font-size: clamp(52px, 10vw, 86px);
+  font-weight: 300;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 8px;
+  opacity: 0;
+  animation: fadeUp .9s .25s forwards;
+}
+
+.invite-title em {
+  font-style: italic;
+  color: var(--mauve);
+}
+
+.invite-subtitle {
+  font-family: var(--f-display);
+  font-size: clamp(16px, 3vw, 22px);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp .9s .4s forwards;
+}
+
+/* Separador floral */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 40px 0;
+  opacity: 0;
+  animation: fadeUp .8s .55s forwards;
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  max-width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border));
+}
+.divider::after { background: linear-gradient(90deg, var(--border), transparent); }
+.divider-icon { color: var(--rose); font-size: 18px; }
+
+/* Info del evento */
+.invite-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp .9s .7s forwards;
+}
+
+.info-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 20px;
+}
+
+.info-label {
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--rose);
+  margin-bottom: 6px;
+}
+
+.info-value {
+  font-family: var(--f-display);
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+/* Mensaje */
+.invite-message {
+  font-family: var(--f-display);
+  font-size: clamp(15px, 2.5vw, 18px);
+  font-style: italic;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 420px;
+  margin: 0 auto 48px;
+  opacity: 0;
+  animation: fadeUp .9s .85s forwards;
+}
+
+/* CTA */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--mauve);
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  padding: 16px 36px;
+  font-family: var(--f-body);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .2s, transform .15s, box-shadow .2s;
+  box-shadow: 0 4px 24px rgba(155,107,120,.25);
+  opacity: 0;
+  animation: fadeUp .9s 1s forwards;
+}
+.btn-primary:hover {
+  background: var(--rose);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(155,107,120,.3);
+}
+.btn-primary svg { width: 16px; height: 16px; }
+
+/* ── LISTA DE REGALOS ─────────────────────────────────── */
+#page-gifts {
+  display: none;
+  padding: 60px 24px 100px;
+}
+#page-gifts.active { display: block; }
+
+.gifts-header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.gifts-eyebrow {
+  font-size: 10px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--rose);
+  margin-bottom: 16px;
+}
+
+.gifts-title {
+  font-family: var(--f-display);
+  font-size: clamp(36px, 6vw, 56px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+.gifts-title em { font-style: italic; color: var(--mauve); }
+
+.gifts-note {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 12px;
+}
+
+/* Banner código */
+.code-banner {
+  max-width: 720px;
+  margin: 0 auto 48px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.code-banner-icon { font-size: 22px; flex-shrink: 0; }
+.code-banner-text { flex: 1; }
+.code-banner-label { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--rose); }
+.code-banner-code {
+  font-family: monospace;
+  font-size: 20px;
+  letter-spacing: .15em;
+  color: var(--ink);
+  font-weight: 400;
+}
+.code-banner.invalid { border-color: #e0b0b0; background: #fff8f8; }
+.code-banner.used    { border-color: #d4c8a0; background: #fffdf0; }
+
+/* Error de acceso */
+.access-error {
+  max-width: 480px;
+  margin: 0 auto 40px;
+  text-align: center;
+  padding: 40px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+}
+.access-error .icon { font-size: 40px; margin-bottom: 16px; }
+.access-error h3 {
+  font-family: var(--f-display);
+  font-size: 26px;
+  font-weight: 300;
+  margin-bottom: 8px;
+}
+.access-error p { font-size: 14px; color: var(--muted); }
+
+/* Grid de regalos */
+.gifts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* Tarjeta de regalo */
+.gift-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+  position: relative;
+  overflow: hidden;
+}
+.gift-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(242,212,200,.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.gift-card:hover:not(.reserved) {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px var(--shadow);
+  border-color: var(--blush);
+}
+.gift-card.reserved {
+  opacity: .75;
+  background: #f8f5f3;
+}
+
+.gift-emoji { font-size: 32px; line-height: 1; }
+
+.gift-name {
+  font-family: var(--f-display);
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.gift-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+/* Badge estado */
+.gift-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 100px;
+  font-weight: 400;
+  width: fit-content;
+}
+.gift-badge.available { background: rgba(138,158,140,.15); color: var(--sage); }
+.gift-badge.reserved  { background: rgba(201,132,122,.12); color: var(--rose); }
+.gift-badge .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Botón reservar */
+.btn-reserve {
+  margin-top: 4px;
+  background: transparent;
+  border: 1.5px solid var(--mauve);
+  color: var(--mauve);
+  border-radius: 100px;
+  padding: 10px 20px;
+  font-family: var(--f-body);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .18s, color .18s;
+  width: 100%;
+}
+.btn-reserve:hover:not(:disabled) {
+  background: var(--mauve);
+  color: #fff;
+}
+.btn-reserve:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+/* Modal de confirmación */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(45,35,32,.55);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: auto; }
+
+.modal {
+  background: var(--card);
+  border-radius: 24px;
+  padding: 40px 36px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  transform: translateY(16px);
+  transition: transform .25s;
+  box-shadow: 0 32px 80px rgba(45,35,32,.2);
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+
+.modal-emoji { font-size: 48px; margin-bottom: 16px; }
+.modal-title {
+  font-family: var(--f-display);
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.modal-body { font-size: 14px; color: var(--muted); margin-bottom: 28px; line-height: 1.7; }
+
+.modal-gift-name {
+  font-family: var(--f-display);
+  font-size: 20px;
+  color: var(--mauve);
+  font-style: italic;
+  margin-bottom: 24px;
+}
+
+.modal-actions { display: flex; gap: 12px; }
+.modal-actions .btn-cancel {
+  flex: 1;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  padding: 12px;
+  font-family: var(--f-body);
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.modal-actions .btn-cancel:hover { border-color: var(--rose); color: var(--rose); }
+.modal-actions .btn-confirm {
+  flex: 2;
+  background: var(--mauve);
+  border: none;
+  border-radius: 100px;
+  padding: 12px;
+  font-family: var(--f-body);
+  font-size: 13px;
+  color: #fff;
+  cursor: pointer;
+  transition: background .15s;
+}
+.modal-actions .btn-confirm:hover { background: var(--rose); }
+.modal-actions .btn-confirm:disabled { opacity: .6; cursor: not-allowed; }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--ink);
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 100px;
+  font-size: 13px;
+  letter-spacing: .04em;
+  z-index: 200;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+  white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.success { background: var(--sage); }
+.toast.error   { background: var(--rose); }
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  vertical-align: middle;
+}
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg, #f0e8e2 0%, #e8ddd7 50%, #f0e8e2 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 12px;
+}
+
+/* Animaciones */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+/* ── Nav ──────────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  background: rgba(253,248,242,.85);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-brand {
+  font-family: var(--f-display);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--mauve);
+}
+.nav-link {
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 0;
+  transition: color .15s;
+}
+.nav-link:hover { color: var(--mauve); }
+.nav-link.active { color: var(--mauve); border-bottom: 1px solid var(--mauve); }
+
+/* Responsive */
+@media (max-width: 480px) {
+  .invite-info { grid-template-columns: 1fr; }
+  .modal { padding: 32px 24px; }
+  .code-banner { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .nav { padding: 14px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <span class="nav-brand">Baby Shower</span>
+  <div style="display:flex;gap:24px">
+    <button class="nav-link active" id="nav-invite" onclick="showPage('invite')">Invitación</button>
+    <button class="nav-link" id="nav-gifts" onclick="showPage('gifts')">Lista de regalos</button>
+  </div>
+</nav>
+
+<!-- ── PÁGINA: INVITACIÓN ─────────────────────────────── -->
+<main id="page-invite" class="page" style="padding-top:80px">
+  <div class="invite-frame">
+    <p class="invite-eyebrow">Estás invitad@ a un</p>
+
+    <h1 class="invite-title">Baby<br><em>Shower</em></h1>
+
+    <p class="invite-subtitle">Celebrando la llegada de -----</p>
+
+    <div class="divider">
+      <span class="divider-icon">✦</span>
+    </div>
+
+    <!-- ⚠️ EDITÁ ESTA SECCIÓN CON LOS DATOS REALES -->
+    <div class="invite-info">
+      <div class="info-block">
+        <div class="info-label">Cuándo</div>
+        <div class="info-value">Sábado 02 de Mayo<br>15:30 hs</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Dónde</div>
+        <div class="info-value">Laureano oliver 69<br>Lomas de Zamora</div>
+      </div>
+    </div>
+
+    <p class="invite-message">
+      "Con mucha alegría queremos compartir con vos la espera de nuestra bebita.
+      Tu presencia es el mejor regalo."
+    </p>
+
+    <a href="javascript:void(0)" class="btn-primary" onclick="showPage('gifts')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/>
+        <path d="M12 7V3M12 3l-3 3M12 3l3 3"/>
+      </svg>
+      Ver lista de regalos
+    </a>
+  </div>
+</main>
+
+<!-- ── PÁGINA: LISTA DE REGALOS ───────────────────────── -->
+<section id="page-gifts" class="page" style="padding-top:80px">
+  <div class="gifts-header">
+    <p class="gifts-eyebrow">Lista de</p>
+    <h2 class="gifts-title">Regalos <em>sugeridos</em></h2>
+    <p class="gifts-note">Elegí uno y hacé tu reserva — es anónima 🌸</p>
+  </div>
+
+  <!-- Banner del código (se llena con JS) -->
+  <div id="code-banner" class="code-banner" style="max-width:720px;margin:0 auto 48px;display:none"></div>
+
+  <!-- Error de acceso (código inválido o sin código) -->
+  <div id="access-error" style="display:none">
+    <div class="access-error">
+      <div class="icon">🔑</div>
+      <h3>Acceso no válido</h3>
+      <p>Este link no tiene un código válido.<br>Verificá que estés usando el link que te enviaron.</p>
+    </div>
+  </div>
+
+  <!-- Grid de regalos -->
+  <div id="gifts-grid" class="gifts-grid" style="display:none"></div>
+</section>
+
+<!-- Modal de confirmación -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-emoji">🎁</div>
+    <h3 class="modal-title">¿Confirmás la reserva?</h3>
+    <p class="modal-gift-name" id="modal-gift-name"></p>
+    <p class="modal-body">Esta acción es definitiva. Tu código quedará utilizado y no podrás elegir otro regalo.</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-confirm" id="modal-confirm" onclick="confirmReserve()">Sí, reservar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Configuración ────────────────────────────────────────────────────
+// ⚠️ CAMBIÁ ESTO por la URL de tu Worker
+const WORKER_URL = "https://baby-shower-api.babyshowerdieguez.workers.dev";
+
+// ── Estado ───────────────────────────────────────────────────────────
+const params  = new URLSearchParams(location.search);
+const CODE    = (params.get("code") || "").toUpperCase().trim();
+let regalos   = [];
+let pendingId = null;
+let codigoValido = false;
+let codigoUsado  = false;
+
+// ── Navegación ───────────────────────────────────────────────────────
+function showPage(page) {
+  document.getElementById("page-invite").style.display = page === "invite" ? "" : "none";
+  document.getElementById("page-gifts").classList.toggle("active", page === "gifts");
+  document.getElementById("nav-invite").classList.toggle("active", page === "invite");
+  document.getElementById("nav-gifts").classList.toggle("active", page === "gifts");
+
+  if (page === "gifts" && regalos.length === 0) loadGifts();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// Si el link trae código, ir directo a regalos
+if (CODE) showPage("gifts");
+
+// ── Cargar regalos ───────────────────────────────────────────────────
+async function loadGifts() {
+  const grid = document.getElementById("gifts-grid");
+  grid.style.display = "grid";
+
+  // Skeletons mientras carga
+  grid.innerHTML = Array(6).fill(0).map(() => `
+    <div class="gift-card">
+      <div class="skeleton" style="width:40px;height:40px;border-radius:8px"></div>
+      <div class="skeleton" style="width:70%;height:22px;border-radius:6px"></div>
+      <div class="skeleton" style="width:90%;height:14px;border-radius:4px"></div>
+      <div class="skeleton" style="width:90%;height:14px;border-radius:4px;margin-top:-4px"></div>
+      <div class="skeleton" style="width:45%;height:24px;border-radius:100px"></div>
+    </div>
+  `).join("");
+
+  // Validar código en paralelo con la carga de regalos
+  const [regalosRes, codigoRes] = await Promise.all([
+    fetch(`${WORKER_URL}/api/regalos`).then(r => r.json()).catch(() => null),
+    CODE ? fetch(`${WORKER_URL}/api/reservar`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ codigo: CODE, regalo_id: "_check_" }),
+    }).then(r => r.json()).catch(() => null) : Promise.resolve(null),
+  ]);
+
+  // Interpretar estado del código
+  if (!CODE) {
+    codigoValido = false;
+  } else if (codigoRes?.error === "Faltan campos: codigo, regalo_id") {
+    // El código existe (llegó a validar, el error es del campo, no del código)
+    codigoValido = true; codigoUsado = false;
+  } else if (codigoRes?.error === "Este código ya fue utilizado") {
+    codigoValido = true; codigoUsado = true;
+  } else {
+    codigoValido = false;
+  }
+
+  renderCodeBanner();
+
+  if (!regalosRes?.ok) {
+    grid.innerHTML = `<p style="color:var(--muted);font-size:14px;text-align:center;grid-column:1/-1">Error al cargar los regalos. Recargá la página.</p>`;
+    return;
+  }
+
+  regalos = regalosRes.regalos;
+
+  if (!codigoValido) {
+    grid.style.display = "none";
+    document.getElementById("access-error").style.display = "block";
+    return;
+  }
+
+  renderGifts();
+}
+
+function renderCodeBanner() {
+  const banner = document.getElementById("code-banner");
+  if (!CODE) { banner.style.display = "none"; return; }
+  banner.style.display = "flex";
+
+  if (!codigoValido) {
+    banner.className = "code-banner invalid";
+    banner.innerHTML = `
+      <span class="code-banner-icon">❌</span>
+      <div class="code-banner-text">
+        <div class="code-banner-label">Código inválido</div>
+        <div style="font-size:13px;color:var(--muted)">Este código no existe. Verificá el link recibido.</div>
+      </div>`;
+    return;
+  }
+  if (codigoUsado) {
+    banner.className = "code-banner used";
+    banner.innerHTML = `
+      <span class="code-banner-icon">✅</span>
+      <div class="code-banner-text">
+        <div class="code-banner-label">Código utilizado</div>
+        <div style="font-size:13px;color:var(--muted)">Ya reservaste un regalo con este código. ¡Gracias! 🎀</div>
+      </div>`;
+    return;
+  }
+  banner.className = "code-banner";
+  banner.innerHTML = `
+    <span class="code-banner-icon">🎟️</span>
+    <div class="code-banner-text">
+      <div class="code-banner-label">Tu código</div>
+      <div class="code-banner-code">${CODE}</div>
+    </div>
+    <div style="font-size:12px;color:var(--muted);text-align:right">Podés reservar<br>1 regalo</div>`;
+}
+
+function renderGifts() {
+  const grid = document.getElementById("gifts-grid");
+  const canReserve = codigoValido && !codigoUsado;
+
+  grid.innerHTML = regalos.map(r => `
+    <div class="gift-card ${r.reservado ? "reserved" : ""}" id="card-${r.id}">
+      <div class="gift-emoji">${r.emoji}</div>
+      <div class="gift-name">${r.nombre}</div>
+      <div class="gift-desc">${r.descripcion}</div>
+      <span class="gift-badge ${r.reservado ? "reserved" : "available"}">
+        <span class="dot"></span>
+        ${r.reservado ? "Reservado" : "Disponible"}
+      </span>
+      ${!r.reservado && canReserve ? `
+        <button class="btn-reserve" onclick="openModal('${r.id}', '${escHtml(r.nombre)}')">
+          Reservar este regalo
+        </button>` : ""}
+    </div>
+  `).join("");
+}
+
+function escHtml(s) { return s.replace(/'/g,"&#39;").replace(/"/g,"&quot;"); }
+
+// ── Modal ────────────────────────────────────────────────────────────
+function openModal(id, nombre) {
+  pendingId = id;
+  document.getElementById("modal-gift-name").textContent = nombre;
+  document.getElementById("modal").classList.add("open");
+}
+function closeModal() {
+  document.getElementById("modal").classList.remove("open");
+  pendingId = null;
+}
+
+async function confirmReserve() {
+  if (!pendingId) return;
+  const btn = document.getElementById("modal-confirm");
+  btn.disabled = true;
+  btn.innerHTML = `<span class="spinner"></span> Reservando…`;
+
+  try {
+    const res = await fetch(`${WORKER_URL}/api/reservar`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ codigo: CODE, regalo_id: pendingId }),
+    }).then(r => r.json());
+
+    if (res.ok) {
+      closeModal();
+      codigoUsado = true;
+      // Marcar el regalo localmente sin recargar
+      const regalo = regalos.find(r => r.id === pendingId);
+      if (regalo) regalo.reservado = true;
+      renderGifts();
+      renderCodeBanner();
+      showToast("¡Regalo reservado! 🎀 ¡Gracias!", "success");
+    } else {
+      closeModal();
+      showToast(res.error || "Ocurrió un error. Intentá de nuevo.", "error");
+      // Recargar para reflejar estado real
+      regalos = [];
+      loadGifts();
+    }
+  } catch {
+    closeModal();
+    showToast("Error de conexión. Intentá de nuevo.", "error");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Sí, reservar";
+  }
+}
+
+// ── Toast ────────────────────────────────────────────────────────────
+function showToast(msg, type = "") {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove("show"), 3500);
+}
+
+// Cerrar modal al hacer click fuera
+document.getElementById("modal").addEventListener("click", e => {
+  if (e.target === e.currentTarget) closeModal();
+});
+</script>
+</body>
+</html>
