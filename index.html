@@ -9,7 +9,7 @@
   ╔══════════════════════════════════════════════════════════════╗
   ║  Baby Shower App — Código fuente abierto                    ║
   ║  Podés explorar cómo funciona este sitio en:                ║
-  ║  https://github.com/TUUSUARIO/baby-shower                   ║
+  ║  https://github.com/fdieguez1/baby-shower                   ║
   ║                                                              ║
   ║  La lista de regalos y las reservas se guardan en           ║
   ║  Cloudflare Workers KV. Los códigos son de un solo uso      ║
@@ -50,24 +50,60 @@ body {
   min-height: 100vh;
 }
 
-body::before {
+body::after {
   content: '';
   position: fixed;
   inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 10% 10%, rgba(242,212,200,.35) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at 90% 90%, rgba(138,158,140,.18) 0%, transparent 55%);
+  background-image: url('https://img.goodfon.com/wallpaper/nbig/8/ee/anime-art-fon-tekstura-moy-3165.webp');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.05;
   pointer-events: none;
   z-index: 0;
 }
-.gift-desc a {
-  color: var(--mauve);
-  text-decoration: underline;
-  font-size: inherit;
-}
+
+.gift-desc a { color: var(--mauve); text-decoration: underline; font-size: inherit; }
 .gift-desc a:hover { color: var(--rose); }
 
 .page { position: relative; z-index: 1; min-height: 100vh; }
+
+/* ── Totoros flotantes ── */
+.totoro-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.totoro {
+  position: absolute;
+  opacity: 0;
+  /* cada uno tiene su propia animación de float + fade definida inline */
+}
+
+.totoro img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* pequeña rotación suave complementaria */
+  animation: totoroWiggle var(--wiggle, 6s) ease-in-out infinite alternate;
+}
+
+@keyframes totoroFloat {
+  0%   { transform: translateY(0px) rotate(var(--rot-start, -3deg)); opacity: var(--op, .9); }
+  50%  { transform: translateY(var(--drift, -18px)) rotate(var(--rot-end, 3deg)); opacity: calc(var(--op, .9) * 1.15); }
+  100% { transform: translateY(0px) rotate(var(--rot-start, -3deg)); opacity: var(--op, .9); }
+}
+
+@keyframes totoroWiggle {
+  0%   { transform: scale(1) rotate(0deg); }
+  100% { transform: scale(1.04) rotate(2deg); }
+}
+
+@keyframes totoroFadeIn {
+  to { opacity: var(--op, .9); }
+}
 
 /* ── Nav ── */
 .nav {
@@ -108,9 +144,16 @@ body::before {
 .invite-title em { font-style: italic; color: var(--mauve); }
 .invite-subtitle {
   font-family: var(--f-display); font-size: clamp(16px, 3vw, 22px);
-  font-weight: 300; font-style: italic; color: var(--muted); margin-bottom: 48px;
+  font-weight: 300; font-style: italic; color: var(--muted); margin-bottom: 12px;
   opacity: 0; animation: fadeUp .9s .4s forwards;
 }
+.invite-title-victoria {
+  font-family: var(--f-display); font-size: clamp(40px, 8vw, 70px);
+  font-weight: 300; line-height: 1.05; margin-bottom: 8px;
+  opacity: 0; animation: fadeUp .9s .5s forwards;
+}
+.invite-title-victoria em { font-style: italic; color: var(--mauve); }
+
 .divider {
   display: flex; align-items: center; justify-content: center;
   gap: 12px; margin: 40px 0; opacity: 0; animation: fadeUp .8s .55s forwards;
@@ -128,25 +171,14 @@ body::before {
 }
 .info-block { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px 20px; }
 .info-label { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--rose); margin-bottom: 6px; }
-.info-value { font-family: var(--f-display); font-size: 20px; font-weight: 300; color: var(--ink); line-height: 1.3; }
+.info-value { font-family: var(--f-display); font-size: 18px; font-weight: 300; color: var(--ink); line-height: 1.4; }
 
 .invite-message {
   font-family: var(--f-display); font-size: clamp(15px, 2.5vw, 18px); font-style: italic;
   color: var(--muted); line-height: 1.8; max-width: 420px; margin: 0 auto 48px;
   opacity: 0; animation: fadeUp .9s .85s forwards;
+  background-color:rgba(255,255,255,0.8);
 }
-.btn-primary {
-  
-  display: inline-flex; align-items: center; gap: 10px;
-  background: var(--mauve); color: #fff; border: none; border-radius: 100px;
-  padding: 1px 8px; font-family: var(--f-body); font-size: 13px; font-weight: 400;
-  letter-spacing: .12em; text-transform: uppercase; cursor: pointer; text-decoration: none;
-  transition: background .2s, transform .15s, box-shadow .2s;
-  box-shadow: 0 4px 24px rgba(155,107,120,.25);
-  opacity: 0; animation: fadeUp .9s 1s forwards;
-}
-.btn-primary:hover { background: var(--rose); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(155,107,120,.3); }
-.btn-primary svg { width: 16px; height: 16px; }
 
 /* ── Lista de regalos ── */
 #page-gifts { display: none; padding: 100px 24px 100px; }
@@ -342,10 +374,59 @@ body::before {
   .nav { padding: 14px 20px; }
   .nav-links { gap: 16px; }
   .code-input { font-size: 16px; }
+  .totoro { 
+    opacity: 0 !important; 
+  }
 }
 </style>
 </head>
 <body>
+
+<!-- ── Totoros flotantes (fondo, solo página invitación) ── -->
+<!--
+  Los GIFs de Totoro vienen de Tenor/Giphy vía URL directa.
+  Si querés usar tus propios GIFs, reemplazá los src por rutas locales
+  como "./totoro1.gif" y subí los archivos al repo junto con el index.html
+-->
+<!-- <div class="totoro-layer" id="totoro-layer">
+
+  <div class="totoro" style="
+    left: -2%; top: 20%;
+    width: 180px; height: 180px;
+    --op: .9; --drift: -22px; --rot-start: -4deg; --rot-end: 3deg; --wiggle: 7s;
+    animation: totoroFadeIn .5s 1.8s forwards, totoroFloat 8s 2.3s ease-in-out infinite;
+  ">
+    <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZmtxNzZnNjI0Ym15eDlqamN3Y2s5dWZmcGVhY2NrNTljcWg4MndlbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jGzOai7F7LnkQ/giphy.gif" alt="">
+  </div>
+
+  <div class="totoro" style="
+    right: 2%; top: 12%;
+    width: 180px; height: 180px;
+    --op: .9; --drift: -14px; --rot-start: 3deg; --rot-end: -3deg; --wiggle: 5s;
+    animation: totoroFadeIn .5s 2.4s forwards, totoroFloat 6.5s 2.9s ease-in-out infinite;
+  ">
+    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcnd5OHQ5MGJjNzNqY2g5dXk4ZWc5YXU0YmloeW12bTVpMDNvb29oMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11D0XkJInM2ssU/giphy.gif" alt="">
+  </div>
+
+  <div class="totoro" style="
+    right: -1%; bottom: 15%;
+    width: 180px; height: 180px;
+    --op: .9; --drift: -18px; --rot-start: -2deg; --rot-end: 4deg; --wiggle: 9s;
+    animation: totoroFadeIn .5s 3s forwards, totoroFloat 9.5s 3.5s ease-in-out infinite;
+  ">
+    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaHp0d21ucnI1eW5wYWpnYTlldWFya290eXB6Mmw0aG1oM21jMmxrbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/13cqvMx0yH3eko/giphy.gif" alt="">
+  </div>
+
+  <div class="totoro" style="
+    left: 3%; bottom: 20%;
+    width: 180px; height: 180px;
+    --op: .9; --drift: -10px; --rot-start: 5deg; --rot-end: -2deg; --wiggle: 6s;
+    animation: totoroFadeIn .5s 2.1s forwards, totoroFloat 7s 2.6s ease-in-out infinite;
+  ">
+    <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExemZmNzRzc2k3YzlqZHk4M2gyamxqaWdwZGVnaWtuODlna2owMjhkMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/JyDMX1pVgdHl6/giphy.gif" alt="">
+  </div>
+
+</div> -->
 
 <nav class="nav">
   <span class="nav-brand">Baby Shower</span>
@@ -358,18 +439,18 @@ body::before {
 <!-- ═══ INVITACIÓN ═══ -->
 <main id="page-invite" class="page" style="padding-top:80px">
   <div class="invite-frame">
+    <img style="border-radius: 25px; border: 5px solid var(--border); margin-bottom:30px" src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTU3ZXFoazJ1cG9wNXF3MmQ0dWFpdjM4NjZyY2I2b2VoazljaXY5bSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BRN2Xi0MqnjjO/giphy.gif" alt="">
     <p class="invite-eyebrow">Te invito a un</p>
     <h1 class="invite-title">Baby<br><em>Shower</em></h1>
-    <p class="invite-subtitle">Celebrando la llegada de </p>
-    <h1 class="invite-title"><em>Victoria</em></h1>
-
+    <p class="invite-subtitle">Celebrando la llegada de</p>
+    <h2 class="invite-title-victoria"><em>Victoria</em></h2>
 
     <div class="divider"><span class="divider-icon">✦</span></div>
 
     <div class="invite-info">
       <div class="info-block">
         <div class="info-label">Cuándo</div>
-        <div class="info-value">Sábado 02 de mayo<br>15:30 hs a  19:30, hacemos una merienda, porfa traer mate y bombilla si toman</div>
+        <div class="info-value">Sábado 02 de mayo<br>15:30 a 19:30 hs<br><span style="font-size:14px;color:var(--muted)">Merienda — traer mate y bombilla si tomás</span></div>
       </div>
       <div class="info-block">
         <div class="info-label">Dónde</div>
@@ -381,14 +462,11 @@ body::before {
       "Con mucha alegría queremos compartir con vos la espera de nuestra bebita.
       Tu presencia es el mejor regalo."
     </p>
+    <img style="border-radius: 25px; border: 5px solid var(--border); margin-top:30px" src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDB0eW80a3N5aWF2a3JqNTA4eHQwcGt4ZDN5ZGxzenZzdnlrYjE2eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZYZEFjLzOV3fq/giphy.gif" alt="">
 
     <!-- Botón desactivado: acceso a regalos solo desde la pestaña superior derecha -->
     <!--
     <a href="javascript:void(0)" class="btn-primary" onclick="showPage('gifts')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/>
-        <path d="M12 7V3M12 3l-3 3M12 3l3 3"/>
-      </svg>
       Ver lista de regalos
     </a>
     -->
@@ -406,7 +484,7 @@ body::before {
   <div class="transparency-panel">
     <div class="transparency-header" id="t-header" onclick="toggleTransparency()">
       <span style="font-size:16px">🔍</span>
-      <span class="transparency-title">¿Cómo funciona? Son regalos sugeridos a modo de guía, solo para organizar y evitar repeticiones dentro de lo posible, lo importante solo es que vengan a pasarla bien, pero aprovechamos toda ayuda y como es algo nuevo para todos aprovechamos a dejar lo que nos viene bien</span>
+      <span class="transparency-title">¿Cómo funciona?</span>
       <span class="t-arrow" id="t-arrow">▼</span>
     </div>
     <div class="transparency-body" id="t-body">
@@ -414,15 +492,22 @@ body::before {
         <div class="t-item">
           <span class="t-item-icon">🎟️</span>
           <div>
+            <div class="t-item-label">Esto es solo una guía, ignorala sin compromiso</div>
+            <div class="t-item-text">Son regalos sugeridos, solo para organizar y evitar repeticiones dentro de lo posible, pero aprovechamos toda ayuda y como es algo nuevo para todos aprovechamos a dejar lo que nos viene bien.</div>
+          </div>
+        </div>
+        <div class="t-item">
+          <span class="t-item-icon">🎟️</span>
+          <div>
             <div class="t-item-label">Código de un solo uso</div>
-            <div class="t-item-text">Cada invitada recibe un link con un código único. Una vez que reservás un regalo, el código queda quemado y no podés volver a usarlo.</div>
+            <div class="t-item-text">Cada invitado recibe un link con un código único. Una vez que reservás un regalo, el código queda quemado y no podés volver a usarlo.</div>
           </div>
         </div>
         <div class="t-item">
           <span class="t-item-icon">🕶️</span>
           <div>
             <div class="t-item-label">Reserva 100% anónima</div>
-            <div class="t-item-text">El sistema no registra qué código eligió qué regalo. Solo sabe si el código fue usado o no. Nadie — ni la organizadora — sabe quién regaló qué.</div>
+            <div class="t-item-text">El sistema no registra qué código eligió qué regalo. Solo el sistema sabe si el código fue usado o no, yo (fer) lo hice para que sea anónimo. Nadie sabe quién reservó qué. (así que no jueguen que me lo rompen, je)</div>
           </div>
         </div>
         <div class="t-item">
@@ -444,7 +529,7 @@ body::before {
         <span>📂</span>
         <span>Código fuente disponible en</span>
         <a href="https://github.com/fdieguez1/baby-shower" target="_blank" rel="noopener">github.com/fdieguez1/baby-shower</a>
-        <span>— aca podés ver que no te robamos el wifi, mi mayor miedo</span>
+        <span>— acá podés ver que no te robamos el wifi, mi mayor miedo</span>
       </div>
     </div>
   </div>
@@ -512,9 +597,7 @@ body::before {
 <script>
 /*
  * Baby Shower App — Frontend
- * ⚠️ Código fuente: https://github.com/TUUSUARIO/baby-shower
- *
- * ⚠️ CAMBIÁ ESTA URL por la de tu Cloudflare Worker:
+ * Código fuente: https://github.com/fdieguez1/baby-shower
  */
 const WORKER_URL = "https://baby-shower-api.babyshowerdieguez.workers.dev";
 
@@ -526,7 +609,6 @@ let regalos      = [];
 let pendingId    = null;
 let giftsLoaded  = false;
 
-// Código que viene en el URL (?code=XXXX)
 const urlCode = (new URLSearchParams(location.search).get("code") || "").toUpperCase().trim();
 
 // ── Navegación ───────────────────────────────────────────────
@@ -535,6 +617,11 @@ function showPage(page) {
   document.getElementById("page-gifts").classList.toggle("active", page === "gifts");
   document.getElementById("nav-invite").classList.toggle("active", page === "invite");
   document.getElementById("nav-gifts").classList.toggle("active", page === "gifts");
+
+  // Los Totoros solo se muestran en la invitación
+  const totoroLayer = document.getElementById("totoro-layer");
+  if (totoroLayer) totoroLayer.style.display = page === "invite" ? "" : "none";
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 
   if (page === "gifts") {
@@ -543,6 +630,7 @@ function showPage(page) {
   }
 }
 
+// Siempre arrancamos en la invitación, el código del URL se usa cuando van a regalos
 // El código del URL se guarda en urlCode pero siempre arrancamos en la invitación.
 
 // ── Transparencia (acordeón) ─────────────────────────────────
@@ -707,6 +795,7 @@ function openModal(id, nombre) {
 function closeModal() {
   document.getElementById("modal").classList.remove("open");
   pendingId = null;
+  loadGifts();
 }
 
 async function confirmReserve() {
