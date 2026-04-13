@@ -45,7 +45,7 @@ body {
   color: var(--ink);
   font-family: var(--f-body);
   font-weight: 300;
-  font-size: 16px;
+  font-size: 17px; /* subido de 16 */
   line-height: 1.7;
   min-height: 100vh;
 }
@@ -69,52 +69,35 @@ body::after {
 
 /* ── Totoros flotantes ── */
 .totoro-layer {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0; overflow: hidden;
 }
-
-.totoro {
-  position: absolute;
-  opacity: 0;
-  /* cada uno tiene su propia animación de float + fade definida inline */
-}
-
+.totoro { position: absolute; opacity: 0; }
 .totoro img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  /* pequeña rotación suave complementaria */
+  width: 100%; height: 100%; object-fit: contain;
   animation: totoroWiggle var(--wiggle, 6s) ease-in-out infinite alternate;
 }
-
 @keyframes totoroFloat {
   0%   { transform: translateY(0px) rotate(var(--rot-start, -3deg)); opacity: var(--op, .9); }
   50%  { transform: translateY(var(--drift, -18px)) rotate(var(--rot-end, 3deg)); opacity: calc(var(--op, .9) * 1.15); }
   100% { transform: translateY(0px) rotate(var(--rot-start, -3deg)); opacity: var(--op, .9); }
 }
-
 @keyframes totoroWiggle {
   0%   { transform: scale(1) rotate(0deg); }
   100% { transform: scale(1.04) rotate(2deg); }
 }
-
-@keyframes totoroFadeIn {
-  to { opacity: var(--op, .9); }
-}
+@keyframes totoroFadeIn { to { opacity: var(--op, .9); } }
 
 /* ── Nav ── */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
   display: flex; align-items: center; justify-content: space-between;
   padding: 18px 32px;
-  background: rgba(253,248,242,.88);
+  background: rgba(253,248,242,.92);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
 }
-.nav-brand { font-family: var(--f-display); font-size: 18px; font-style: italic; color: var(--mauve); }
+.nav-brand { font-family: var(--f-display); font-size: 19px; font-style: italic; color: var(--mauve); }
 .nav-links { display: flex; gap: 24px; }
 .nav-link {
   font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
@@ -133,22 +116,22 @@ body::after {
 .invite-frame { max-width: 560px; width: 100%; }
 
 .invite-eyebrow {
-  font-size: 11px; font-weight: 400; letter-spacing: .25em; text-transform: uppercase;
+  font-size: 12px; font-weight: 400; letter-spacing: .25em; text-transform: uppercase;
   color: var(--rose); margin-bottom: 28px; opacity: 0; animation: fadeUp .8s .1s forwards;
 }
 .invite-title {
-  font-family: var(--f-display); font-size: clamp(52px, 10vw, 86px);
+  font-family: var(--f-display); font-size: clamp(56px, 10vw, 86px);
   font-weight: 300; line-height: 1.05; color: var(--ink); margin-bottom: 8px;
   opacity: 0; animation: fadeUp .9s .25s forwards;
 }
 .invite-title em { font-style: italic; color: var(--mauve); }
 .invite-subtitle {
-  font-family: var(--f-display); font-size: clamp(16px, 3vw, 22px);
+  font-family: var(--f-display); font-size: clamp(17px, 3vw, 23px);
   font-weight: 300; font-style: italic; color: var(--muted); margin-bottom: 12px;
   opacity: 0; animation: fadeUp .9s .4s forwards;
 }
 .invite-title-victoria {
-  font-family: var(--f-display); font-size: clamp(40px, 8vw, 70px);
+  font-family: var(--f-display); font-size: clamp(44px, 8vw, 70px);
   font-weight: 300; line-height: 1.05; margin-bottom: 8px;
   opacity: 0; animation: fadeUp .9s .5s forwards;
 }
@@ -170,14 +153,15 @@ body::after {
   opacity: 0; animation: fadeUp .9s .7s forwards;
 }
 .info-block { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px 20px; }
-.info-label { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--rose); margin-bottom: 6px; }
-.info-value { font-family: var(--f-display); font-size: 18px; font-weight: 300; color: var(--ink); line-height: 1.4; }
+.info-label { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--rose); margin-bottom: 6px; }
+.info-value { font-family: var(--f-display); font-size: 19px; font-weight: 300; color: var(--ink); line-height: 1.4; }
 
 .invite-message {
-  font-family: var(--f-display); font-size: clamp(15px, 2.5vw, 18px); font-style: italic;
+  font-family: var(--f-display); font-size: clamp(16px, 2.5vw, 19px); font-style: italic;
   color: var(--muted); line-height: 1.8; max-width: 420px; margin: 0 auto 48px;
   opacity: 0; animation: fadeUp .9s .85s forwards;
-  background-color:rgba(255,255,255,0.8);
+  background-color: rgba(255,255,255,0.8);
+  padding: 12px 16px; border-radius: 12px;
 }
 
 /* ── Lista de regalos ── */
@@ -185,8 +169,8 @@ body::after {
 #page-gifts.active { display: block; }
 
 .gifts-header { text-align: center; margin-bottom: 40px; }
-.gifts-eyebrow { font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--rose); margin-bottom: 16px; }
-.gifts-title { font-family: var(--f-display); font-size: clamp(36px, 6vw, 56px); font-weight: 300; line-height: 1.1; color: var(--ink); }
+.gifts-eyebrow { font-size: 11px; letter-spacing: .25em; text-transform: uppercase; color: var(--rose); margin-bottom: 16px; }
+.gifts-title { font-family: var(--f-display); font-size: clamp(38px, 6vw, 56px); font-weight: 300; line-height: 1.1; color: var(--ink); }
 .gifts-title em { font-style: italic; color: var(--mauve); }
 
 /* ── Panel transparencia ── */
@@ -210,12 +194,12 @@ body::after {
 .t-item { display: flex; gap: 12px; align-items: flex-start; }
 .t-item-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
 .t-item-label { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--rose); margin-bottom: 3px; }
-.t-item-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.t-item-text { font-size: 14px; color: var(--muted); line-height: 1.55; }
 .repo-note {
   margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);
-  font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
 }
-.repo-note a { color: var(--mauve); text-decoration: none; font-family: monospace; font-size: 12px; }
+.repo-note a { color: var(--mauve); text-decoration: none; font-family: monospace; font-size: 13px; }
 .repo-note a:hover { text-decoration: underline; }
 
 /* ── Panel código ── */
@@ -223,11 +207,11 @@ body::after {
   max-width: 720px; margin: 0 auto 20px;
   background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 28px;
 }
-.code-panel-label { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--rose); margin-bottom: 12px; }
+.code-panel-label { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--rose); margin-bottom: 12px; }
 .code-input-row { display: flex; gap: 12px; align-items: stretch; }
 .code-input {
   flex: 1; min-width: 0;
-  font-family: monospace; font-size: 20px; letter-spacing: .2em; text-transform: uppercase;
+  font-family: monospace; font-size: 22px; letter-spacing: .2em; text-transform: uppercase;
   padding: 14px 20px; border: 1.5px solid var(--border); border-radius: 12px;
   background: var(--cream); color: var(--ink); outline: none; transition: border-color .2s;
 }
@@ -238,13 +222,13 @@ body::after {
 .code-input.used    { border-color: #c9a84a; }
 .btn-code {
   background: var(--mauve); color: #fff; border: none; border-radius: 12px;
-  padding: 14px 24px; font-family: var(--f-body); font-size: 13px;
+  padding: 14px 24px; font-family: var(--f-body); font-size: 14px;
   letter-spacing: .08em; text-transform: uppercase; cursor: pointer; white-space: nowrap;
   flex-shrink: 0; transition: background .15s; min-width: 100px; text-align: center;
 }
 .btn-code:hover:not(:disabled) { background: var(--rose); }
 .btn-code:disabled { opacity: .5; cursor: not-allowed; }
-.code-feedback { margin-top: 10px; font-size: 13px; min-height: 20px; display: flex; align-items: center; gap: 6px; }
+.code-feedback { margin-top: 10px; font-size: 14px; min-height: 20px; display: flex; align-items: center; gap: 6px; }
 .code-feedback.valid { color: var(--sage); }
 .code-feedback.error { color: var(--rose); }
 .code-feedback.used  { color: #a08030; }
@@ -259,13 +243,13 @@ body::after {
 .code-banner.show { display: flex; }
 .code-banner.active-state { background: rgba(138,158,140,.1); border: 1px solid rgba(138,158,140,.3); }
 .code-banner.used-state   { background: rgba(201,168,74,.08); border: 1px solid rgba(201,168,74,.3); }
-.code-banner-icon { font-size: 20px; flex-shrink: 0; }
-.code-banner-text { flex: 1; font-size: 13px; color: var(--muted); }
-.code-banner-code { font-family: monospace; font-size: 15px; letter-spacing: .12em; color: var(--ink); }
+.code-banner-icon { font-size: 22px; flex-shrink: 0; }
+.code-banner-text { flex: 1; font-size: 14px; color: var(--muted); }
+.code-banner-code { font-family: monospace; font-size: 16px; letter-spacing: .12em; color: var(--ink); }
 .btn-change {
   font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
   background: none; border: 1px solid var(--border); border-radius: 100px;
-  padding: 6px 14px; color: var(--muted); cursor: pointer; flex-shrink: 0;
+  padding: 7px 16px; color: var(--muted); cursor: pointer; flex-shrink: 0;
   transition: border-color .15s, color .15s;
 }
 .btn-change:hover { border-color: var(--mauve); color: var(--mauve); }
@@ -286,21 +270,21 @@ body::after {
 }
 .gift-card:hover:not(.reserved) { transform: translateY(-3px); box-shadow: 0 12px 40px var(--shadow); border-color: var(--blush); }
 .gift-card.reserved { opacity: .72; background: #f8f5f3; }
-.gift-emoji { font-size: 32px; line-height: 1; }
-.gift-name { font-family: var(--f-display); font-size: 20px; font-weight: 300; color: var(--ink); line-height: 1.25; }
-.gift-desc { font-size: 13px; color: var(--muted); line-height: 1.6; flex: 1; }
+.gift-emoji { font-size: 34px; line-height: 1; }
+.gift-name { font-family: var(--f-display); font-size: 22px; font-weight: 300; color: var(--ink); line-height: 1.25; }
+.gift-desc { font-size: 14px; color: var(--muted); line-height: 1.65; flex: 1; }
 .gift-badge {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
-  padding: 5px 12px; border-radius: 100px; width: fit-content;
+  padding: 6px 13px; border-radius: 100px; width: fit-content;
 }
 .gift-badge.available { background: rgba(138,158,140,.15); color: var(--sage); }
 .gift-badge.reserved  { background: rgba(201,132,122,.12); color: var(--rose); }
 .gift-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 .btn-reserve {
   margin-top: 4px; background: transparent; border: 1.5px solid var(--mauve);
-  color: var(--mauve); border-radius: 100px; padding: 10px 20px;
-  font-family: var(--f-body); font-size: 12px; font-weight: 400;
+  color: var(--mauve); border-radius: 100px; padding: 12px 20px;
+  font-family: var(--f-body); font-size: 13px; font-weight: 400;
   letter-spacing: .1em; text-transform: uppercase; cursor: pointer; width: 100%;
   transition: background .18s, color .18s;
 }
@@ -322,19 +306,19 @@ body::after {
 }
 .modal-overlay.open .modal { transform: translateY(0); }
 .modal-emoji { font-size: 48px; margin-bottom: 16px; }
-.modal-title { font-family: var(--f-display); font-size: 28px; font-weight: 300; color: var(--ink); margin-bottom: 8px; }
-.modal-gift-name { font-family: var(--f-display); font-size: 20px; color: var(--mauve); font-style: italic; margin-bottom: 16px; }
-.modal-body { font-size: 13px; color: var(--muted); margin-bottom: 28px; line-height: 1.75; }
+.modal-title { font-family: var(--f-display); font-size: 30px; font-weight: 300; color: var(--ink); margin-bottom: 8px; }
+.modal-gift-name { font-family: var(--f-display); font-size: 21px; color: var(--mauve); font-style: italic; margin-bottom: 16px; }
+.modal-body { font-size: 14px; color: var(--muted); margin-bottom: 28px; line-height: 1.75; }
 .modal-actions { display: flex; gap: 12px; }
 .btn-cancel {
   flex: 1; background: transparent; border: 1.5px solid var(--border);
-  border-radius: 100px; padding: 12px; font-family: var(--f-body);
-  font-size: 13px; color: var(--muted); cursor: pointer; transition: border-color .15s, color .15s;
+  border-radius: 100px; padding: 14px; font-family: var(--f-body);
+  font-size: 14px; color: var(--muted); cursor: pointer; transition: border-color .15s, color .15s;
 }
 .btn-cancel:hover { border-color: var(--rose); color: var(--rose); }
 .btn-confirm {
   flex: 2; background: var(--mauve); border: none; border-radius: 100px;
-  padding: 12px; font-family: var(--f-body); font-size: 13px; color: #fff;
+  padding: 14px; font-family: var(--f-body); font-size: 14px; color: #fff;
   cursor: pointer; transition: background .15s;
 }
 .btn-confirm:hover { background: var(--rose); }
@@ -345,7 +329,7 @@ body::after {
   position: fixed; bottom: 32px; left: 50%;
   transform: translateX(-50%) translateY(80px);
   background: var(--ink); color: #fff; padding: 14px 28px;
-  border-radius: 100px; font-size: 13px; letter-spacing: .04em;
+  border-radius: 100px; font-size: 14px; letter-spacing: .04em;
   z-index: 200; transition: transform .3s cubic-bezier(.34,1.56,.64,1); white-space: nowrap;
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
@@ -367,16 +351,80 @@ body::after {
 @keyframes spin   { to { transform: rotate(360deg); } }
 @keyframes shimmer{ to { background-position: -200% 0; } }
 
-@media (max-width: 540px) {
-  .invite-info { grid-template-columns: 1fr; }
-  .transparency-items { grid-template-columns: 1fr; }
-  .modal { padding: 32px 20px; }
-  .nav { padding: 14px 20px; }
-  .nav-links { gap: 16px; }
-  .code-input { font-size: 16px; }
-  .totoro { 
-    opacity: 0 !important; 
+/* ══ MOBILE ══════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+
+  /* Nav */
+  .nav { padding: 12px 16px; }
+  .nav-brand { font-size: 16px; }
+  .nav-links { gap: 10px; }
+  .nav-link { font-size: 11px; letter-spacing: .07em; padding: 6px 0; }
+
+  /* Invitación */
+  #page-invite { padding: 28px 16px 56px; }
+  .invite-eyebrow { font-size: 10px; margin-bottom: 20px; }
+  .invite-info { grid-template-columns: 1fr; gap: 12px; margin-bottom: 28px; }
+  .info-block { padding: 16px 14px; }
+  .info-label { font-size: 10px; }
+  .info-value { font-size: 17px; }
+  .invite-message { font-size: 16px; margin-bottom: 28px; padding: 12px 14px; }
+  #page-invite img { width: 85%; max-width: 260px; }
+
+  /* Lista de regalos */
+  #page-gifts { padding: 76px 12px 72px; }
+  .gifts-header { margin-bottom: 20px; }
+
+  /* Panel transparencia */
+  .transparency-panel { border-radius: 16px; }
+  .transparency-header { padding: 14px 16px; }
+  .transparency-title { font-size: 11px; }
+  .transparency-body { padding: 16px; }
+  .transparency-items { grid-template-columns: 1fr; gap: 16px; }
+  .t-item-text { font-size: 14px; }
+  .repo-note { font-size: 12px; gap: 4px; }
+  .repo-note a { font-size: 12px; }
+
+  /* Panel código */
+  .code-panel { padding: 18px 14px; border-radius: 16px; }
+  .code-panel-label { font-size: 11px; }
+  .code-input { font-size: 20px; padding: 13px 14px; letter-spacing: .15em; }
+  .btn-code { padding: 13px 14px; font-size: 13px; min-width: 76px; }
+  .code-feedback { font-size: 13px; }
+
+  /* Banners */
+  .code-banner { padding: 12px 14px; gap: 8px; border-radius: 14px; flex-wrap: wrap; }
+  .code-banner-icon { font-size: 20px; }
+  .code-banner-text { font-size: 13px; flex: 1 1 100%; order: 2; }
+  .code-banner-code { font-size: 15px; }
+  .btn-change { order: 3; font-size: 10px; padding: 6px 12px; }
+
+  /* Grid */
+  .gifts-grid { grid-template-columns: 1fr; gap: 14px; }
+  .gift-card { padding: 20px 16px; gap: 10px; border-radius: 18px; }
+  .gift-emoji { font-size: 30px; }
+  .gift-name { font-size: 22px; }
+  .gift-desc { font-size: 14px; }
+  .gift-badge { font-size: 11px; padding: 5px 12px; }
+  .btn-reserve { padding: 13px; font-size: 13px; }
+
+  /* Modal */
+  .modal { padding: 28px 18px; border-radius: 20px; }
+  .modal-title { font-size: 26px; }
+  .modal-gift-name { font-size: 19px; }
+  .modal-body { font-size: 14px; margin-bottom: 22px; }
+  .btn-cancel, .btn-confirm { padding: 14px; font-size: 14px; }
+
+  /* Toast */
+  .toast {
+    font-size: 13px; padding: 12px 20px;
+    max-width: 88vw; white-space: normal;
+    text-align: center; bottom: 20px;
+    border-radius: 16px;
   }
+
+  /* Totoros ocultos en mobile */
+  .totoro { opacity: 0 !important; }
 }
 </style>
 </head>
@@ -384,48 +432,12 @@ body::after {
 
 <!-- ── Totoros flotantes (fondo, solo página invitación) ── -->
 <!--
-  Los GIFs de Totoro vienen de Tenor/Giphy vía URL directa.
+  Los GIFs de Totoro vienen de Giphy vía URL directa.
   Si querés usar tus propios GIFs, reemplazá los src por rutas locales
   como "./totoro1.gif" y subí los archivos al repo junto con el index.html
 -->
 <!-- <div class="totoro-layer" id="totoro-layer">
-
-  <div class="totoro" style="
-    left: -2%; top: 20%;
-    width: 180px; height: 180px;
-    --op: .9; --drift: -22px; --rot-start: -4deg; --rot-end: 3deg; --wiggle: 7s;
-    animation: totoroFadeIn .5s 1.8s forwards, totoroFloat 8s 2.3s ease-in-out infinite;
-  ">
-    <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZmtxNzZnNjI0Ym15eDlqamN3Y2s5dWZmcGVhY2NrNTljcWg4MndlbiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jGzOai7F7LnkQ/giphy.gif" alt="">
-  </div>
-
-  <div class="totoro" style="
-    right: 2%; top: 12%;
-    width: 180px; height: 180px;
-    --op: .9; --drift: -14px; --rot-start: 3deg; --rot-end: -3deg; --wiggle: 5s;
-    animation: totoroFadeIn .5s 2.4s forwards, totoroFloat 6.5s 2.9s ease-in-out infinite;
-  ">
-    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcnd5OHQ5MGJjNzNqY2g5dXk4ZWc5YXU0YmloeW12bTVpMDNvb29oMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/11D0XkJInM2ssU/giphy.gif" alt="">
-  </div>
-
-  <div class="totoro" style="
-    right: -1%; bottom: 15%;
-    width: 180px; height: 180px;
-    --op: .9; --drift: -18px; --rot-start: -2deg; --rot-end: 4deg; --wiggle: 9s;
-    animation: totoroFadeIn .5s 3s forwards, totoroFloat 9.5s 3.5s ease-in-out infinite;
-  ">
-    <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaHp0d21ucnI1eW5wYWpnYTlldWFya290eXB6Mmw0aG1oM21jMmxrbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/13cqvMx0yH3eko/giphy.gif" alt="">
-  </div>
-
-  <div class="totoro" style="
-    left: 3%; bottom: 20%;
-    width: 180px; height: 180px;
-    --op: .9; --drift: -10px; --rot-start: 5deg; --rot-end: -2deg; --wiggle: 6s;
-    animation: totoroFadeIn .5s 2.1s forwards, totoroFloat 7s 2.6s ease-in-out infinite;
-  ">
-    <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExemZmNzRzc2k3YzlqZHk4M2gyamxqaWdwZGVnaWtuODlna2owMjhkMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/JyDMX1pVgdHl6/giphy.gif" alt="">
-  </div>
-
+  ...
 </div> -->
 
 <nav class="nav">
@@ -450,7 +462,7 @@ body::after {
     <div class="invite-info">
       <div class="info-block">
         <div class="info-label">Cuándo</div>
-        <div class="info-value">Sábado 02 de mayo<br>15:30 a 19:30 hs<br><span style="font-size:14px;color:var(--muted)">Merienda — traer mate y bombilla si tomás</span></div>
+        <div class="info-value">Sábado 02 de mayo<br>15:30 a 19:30 hs<br><span style="font-size:18px;color:var(--muted)">Merienda — traer mate y bombilla si tomás</span></div>
       </div>
       <div class="info-block">
         <div class="info-label">Dónde</div>
@@ -601,7 +613,6 @@ body::after {
  */
 const WORKER_URL = "https://baby-shower-api.babyshowerdieguez.workers.dev";
 
-// ── Estado global ────────────────────────────────────────────
 let activeCode   = "";
 let codigoValido = false;
 let codigoUsado  = false;
@@ -611,14 +622,12 @@ let giftsLoaded  = false;
 
 const urlCode = (new URLSearchParams(location.search).get("code") || "").toUpperCase().trim();
 
-// ── Navegación ───────────────────────────────────────────────
 function showPage(page) {
   document.getElementById("page-invite").style.display = page === "invite" ? "" : "none";
   document.getElementById("page-gifts").classList.toggle("active", page === "gifts");
   document.getElementById("nav-invite").classList.toggle("active", page === "invite");
   document.getElementById("nav-gifts").classList.toggle("active", page === "gifts");
 
-  // Los Totoros solo se muestran en la invitación
   const totoroLayer = document.getElementById("totoro-layer");
   if (totoroLayer) totoroLayer.style.display = page === "invite" ? "" : "none";
 
@@ -630,17 +639,12 @@ function showPage(page) {
   }
 }
 
-// Siempre arrancamos en la invitación, el código del URL se usa cuando van a regalos
-// El código del URL se guarda en urlCode pero siempre arrancamos en la invitación.
-
-// ── Transparencia (acordeón) ─────────────────────────────────
 function toggleTransparency() {
   const open = document.getElementById("t-body").classList.toggle("open");
   document.getElementById("t-header").classList.toggle("open", open);
   document.getElementById("t-arrow").classList.toggle("open", open);
 }
 
-// ── Input de código ──────────────────────────────────────────
 function onCodeInput(input) {
   input.value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, "");
   input.className = "code-input";
@@ -710,7 +714,6 @@ function changeCode() {
   setTimeout(() => input.focus(), 50);
 }
 
-// ── Banners ──────────────────────────────────────────────────
 function showBanner(type) {
   const active = document.getElementById("banner-active");
   const used   = document.getElementById("banner-used");
@@ -738,7 +741,6 @@ function setFeedback(type, msg) {
   el.textContent = msg;
 }
 
-// ── Cargar y renderizar regalos ──────────────────────────────
 async function loadGifts() {
   giftsLoaded = true;
   const grid = document.getElementById("gifts-grid");
@@ -755,7 +757,7 @@ async function loadGifts() {
   const res = await fetch(`${WORKER_URL}/api/regalos`).then(r => r.json()).catch(() => null);
 
   if (!res?.ok) {
-    grid.innerHTML = `<p style="color:var(--muted);font-size:14px;text-align:center;grid-column:1/-1;padding:40px 0">Error al cargar los regalos. Recargá la página.</p>`;
+    grid.innerHTML = `<p style="color:var(--muted);font-size:15px;text-align:center;grid-column:1/-1;padding:40px 0">Error al cargar los regalos. Recargá la página.</p>`;
     return;
   }
 
@@ -786,7 +788,6 @@ function renderGifts() {
 
 function escHtml(s) { return s.replace(/'/g,"&#39;").replace(/"/g,"&quot;"); }
 
-// ── Modal ────────────────────────────────────────────────────
 function openModal(id, nombre) {
   pendingId = id;
   document.getElementById("modal-gift-name").textContent = nombre;
@@ -833,7 +834,6 @@ async function confirmReserve() {
   }
 }
 
-// ── Toast ────────────────────────────────────────────────────
 function showToast(msg, type = "") {
   const t = document.getElementById("toast");
   t.textContent = msg; t.className = `toast ${type} show`;
